@@ -69,7 +69,7 @@ config :phoenix, :plug_init_mode, :runtime
 # Configure your database
 config :data, Data.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "data_dev",
   hostname: "localhost",
   pool_size: 10
