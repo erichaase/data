@@ -12,7 +12,14 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     Mix.Task.run("app.start")
 
     DataWeb.EspnApiClient.scoreboard_game_ids
-    |> inspect
+    |> Enum.each(&process_game/1)
+  end
+
+  defp process_game(gid) do
+    Mix.shell.info("Processing game #{gid}...")
+    DataWeb.EspnGamecastClient.game_stats(gid)
+    |> length
+    |> Integer.to_string
     |> Mix.shell.info
   end
 end
