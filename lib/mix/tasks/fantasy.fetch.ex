@@ -18,6 +18,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   defp process_game(gid) do
     Mix.shell.info("Processing game #{gid}...")
     DataWeb.EspnGamecastClient.game_stats(gid)
+    # |> inspect
     |> length
     |> Integer.to_string
     |> Mix.shell.info
