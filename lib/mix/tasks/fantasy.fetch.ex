@@ -16,11 +16,43 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp process_game(gid) do
-    Mix.shell.info("Processing game #{gid}...")
+    Mix.shell.info("processing game: #{gid}")
+
     DataWeb.EspnGamecastClient.game_stats(gid)
-    # |> inspect
-    |> length
-    |> Integer.to_string
+    |> Enum.each(&process_game_stat/1)
+  end
+
+  defp process_game_stat(stat) do
+    stat
+    |> build_game_stat
+    |> inspect
     |> Mix.shell.info
+    # |> upsert_game_stat
+  end
+
+  defp build_game_stat(s) do
+    [fgm, fga] = String.split(s.fg, "/")
+    [ftm, fta] = String.split(s.ft, "/")
+    [tpm, tpa] = String.split(s.threept, "/")
+
+    # TODO: use ecto model
+    %{
+      espn_id: s.id,
+      first_name: s.firstName,
+      last_name: s.lastName,
+      min: s.minutes,
+      fgm: fgm,
+      fga: fga,
+      ftm: ftm,
+      fta: fta,
+      tpm: tpm,
+      tpa: tpa,
+      pts: String.to_integer(s.points),
+      reb: String.to_integer(s.rebounds),
+      ast: String.to_integer(s.assists),
+      blk: String.to_integer(s.blocks),
+      stl: String.to_integer(s.steals),
+      to: String.to_integer(s.turnovers)
+    }
   end
 end

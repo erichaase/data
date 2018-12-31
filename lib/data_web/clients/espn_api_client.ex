@@ -2,6 +2,7 @@ defmodule DataWeb.EspnApiClient do
   use Tesla
 
   plug Tesla.Middleware.BaseUrl, "http://site.api.espn.com"
+  # TODO: add decode_json to remove unicode chars?
   plug Tesla.Middleware.JSON, engine_opts: [keys: :atoms]
 
   def scoreboard_game_ids do
