@@ -16,6 +16,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp process_game(gid) do
+    Mix.shell.info("Fetching game #{gid}...")
     DataWeb.EspnGamecastClient.game_stats(gid)
     |> Enum.each(&(process_game_stat(&1, gid)))
   end
@@ -68,7 +69,10 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   def upsert_game_stat(gs) do
-    Data.Fantasy.upsert_game_stat(gs)
-    # TODO: rollbar log errors
+    case Data.Fantasy.upsert_game_stat(gs) do
+      {:ok, _}            -> nil
+      # TODO: rollbar log errors
+      {:error, changeset} -> Mix.shell.error("Error upserting: #{inspect(changeset)}")
+    end
   end
 end

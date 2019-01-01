@@ -25,7 +25,7 @@ defmodule DataWeb.EspnGamecastClient do
   end
   defp extract_stats({:ok, %{status: 200, body: body}}), do: body.gamecast.stats.player
   defp combine_into_list(%{away: away, home: home}), do: home ++ away
-  defp reject_totals(stats), do: Enum.reject(stats, &(&1[:firstName] == "TOTALS"))
+  defp reject_totals(stats) when is_list(stats), do: Enum.reject(stats, &(&1[:firstName] == "TOTALS"))
 
   defp decode_json(json) do
     json
