@@ -24,7 +24,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     stat
     |> build_game_stat(gid)
     |> inject_rating
-    # |> upsert_game_stat
+    |> upsert_game_stat
   end
 
   defp build_game_stat(s, gid) do
@@ -32,7 +32,6 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     [ftm, fta] = String.split(s.ft, "/")
     [tpm, tpa] = String.split(s.threept, "/")
 
-    # TODO: use ecto model
     %{
       espn_game_id: gid,
       espn_player_id: s.id,
@@ -66,5 +65,10 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     to  = (gs.to  - 2.0 ) * -3.4
     rating = fgp + ftp + tpm + pts + reb + ast + stl + blk + to
     Map.put(gs, :rating, Kernel.trunc(rating))
+  end
+
+  def upsert_game_stat(gs) do
+    Data.Fantasy.upsert_game_stat(gs)
+    # TODO: rollbar log errors
   end
 end

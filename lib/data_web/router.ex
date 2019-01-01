@@ -15,9 +15,6 @@ defmodule DataWeb.Router do
 
   scope "/", DataWeb do
     pipe_through :browser
-
-    get "/", PageController, :index
-
     resources "/notes", NoteController
     resources "/game_stats", GameStatController
   end

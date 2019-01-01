@@ -38,6 +38,11 @@ defmodule Data.Fantasy do
   def get_game_stat!(id), do: Repo.get!(GameStat, id)
 
   @doc """
+  Gets a single game_stat using attrs.
+  """
+  def get_by_game_stat(attrs), do: Repo.get_by(GameStat, attrs)
+
+  @doc """
   Creates a game_stat.
 
   ## Examples
@@ -71,6 +76,19 @@ defmodule Data.Fantasy do
     game_stat
     |> GameStat.changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Upserts a single game_stat.
+  """
+  def upsert_game_stat(attrs) do
+    query = %{espn_game_id: attrs.espn_game_id, espn_player_id: attrs.espn_player_id}
+    case get_by_game_stat(query) do
+      nil -> %GameStat{}
+      gs  -> gs
+    end
+    |> GameStat.changeset(attrs)
+    |> Repo.insert_or_update
   end
 
   @doc """
