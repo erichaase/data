@@ -65,6 +65,6 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     blk = (gs.blk - 0.6 ) * 4.9
     to  = (gs.to  - 2.0 ) * -3.4
     rating = fgp + ftp + tpm + pts + reb + ast + stl + blk + to
-    Map.put(gs, :rating, rating)
+    Map.put(gs, :rating, Kernel.trunc(rating))
   end
 end
