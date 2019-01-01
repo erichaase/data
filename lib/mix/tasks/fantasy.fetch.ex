@@ -7,16 +7,18 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     Fetches fantasy statistics
   """
 
-  def run(_args) do
-    # start app so that we can access database
-    Mix.Task.run("app.start")
+  def run(args) do
+    Mix.Task.run("app.start") # start app so that we can access database
+    process_games(List.first(args))
+  end
 
-    DataWeb.EspnApiClient.scoreboard_game_ids
+  defp process_games(date) do
+    DataWeb.EspnApiClient.scoreboard_game_ids(date)
     |> Enum.each(&process_game/1)
   end
 
   defp process_game(gid) do
-    Mix.shell.info("Fetching game #{gid}...")
+    Mix.shell.info("Fetching game #{gid}")
     DataWeb.EspnGamecastClient.game_stats(gid)
     |> Enum.each(&(process_game_stat(&1, gid)))
   end
