@@ -1,0 +1,83 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :espn_game_id %>
+  <%= number_input f, :espn_game_id %>
+  <%= error_tag f, :espn_game_id %>
+
+  <%= label f, :espn_player_id %>
+  <%= number_input f, :espn_player_id %>
+  <%= error_tag f, :espn_player_id %>
+
+  <%= label f, :first_name %>
+  <%= text_input f, :first_name %>
+  <%= error_tag f, :first_name %>
+
+  <%= label f, :last_name %>
+  <%= text_input f, :last_name %>
+  <%= error_tag f, :last_name %>
+
+  <%= label f, :min %>
+  <%= number_input f, :min %>
+  <%= error_tag f, :min %>
+
+  <%= label f, :fgm %>
+  <%= number_input f, :fgm %>
+  <%= error_tag f, :fgm %>
+
+  <%= label f, :fga %>
+  <%= number_input f, :fga %>
+  <%= error_tag f, :fga %>
+
+  <%= label f, :ftm %>
+  <%= number_input f, :ftm %>
+  <%= error_tag f, :ftm %>
+
+  <%= label f, :fta %>
+  <%= number_input f, :fta %>
+  <%= error_tag f, :fta %>
+
+  <%= label f, :tpm %>
+  <%= number_input f, :tpm %>
+  <%= error_tag f, :tpm %>
+
+  <%= label f, :tpa %>
+  <%= number_input f, :tpa %>
+  <%= error_tag f, :tpa %>
+
+  <%= label f, :pts %>
+  <%= number_input f, :pts %>
+  <%= error_tag f, :pts %>
+
+  <%= label f, :reb %>
+  <%= number_input f, :reb %>
+  <%= error_tag f, :reb %>
+
+  <%= label f, :ast %>
+  <%= number_input f, :ast %>
+  <%= error_tag f, :ast %>
+
+  <%= label f, :blk %>
+  <%= number_input f, :blk %>
+  <%= error_tag f, :blk %>
+
+  <%= label f, :stl %>
+  <%= number_input f, :stl %>
+  <%= error_tag f, :stl %>
+
+  <%= label f, :to %>
+  <%= number_input f, :to %>
+  <%= error_tag f, :to %>
+
+  <%= label f, :rating %>
+  <%= number_input f, :rating %>
+  <%= error_tag f, :rating %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

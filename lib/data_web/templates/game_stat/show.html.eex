@@ -1,0 +1,98 @@
+<h1>Show Game stat</h1>
+
+<ul>
+
+  <li>
+    <strong>Espn game:</strong>
+    <%= @game_stat.espn_game_id %>
+  </li>
+
+  <li>
+    <strong>Espn player:</strong>
+    <%= @game_stat.espn_player_id %>
+  </li>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @game_stat.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @game_stat.last_name %>
+  </li>
+
+  <li>
+    <strong>Min:</strong>
+    <%= @game_stat.min %>
+  </li>
+
+  <li>
+    <strong>Fgm:</strong>
+    <%= @game_stat.fgm %>
+  </li>
+
+  <li>
+    <strong>Fga:</strong>
+    <%= @game_stat.fga %>
+  </li>
+
+  <li>
+    <strong>Ftm:</strong>
+    <%= @game_stat.ftm %>
+  </li>
+
+  <li>
+    <strong>Fta:</strong>
+    <%= @game_stat.fta %>
+  </li>
+
+  <li>
+    <strong>Tpm:</strong>
+    <%= @game_stat.tpm %>
+  </li>
+
+  <li>
+    <strong>Tpa:</strong>
+    <%= @game_stat.tpa %>
+  </li>
+
+  <li>
+    <strong>Pts:</strong>
+    <%= @game_stat.pts %>
+  </li>
+
+  <li>
+    <strong>Reb:</strong>
+    <%= @game_stat.reb %>
+  </li>
+
+  <li>
+    <strong>Ast:</strong>
+    <%= @game_stat.ast %>
+  </li>
+
+  <li>
+    <strong>Blk:</strong>
+    <%= @game_stat.blk %>
+  </li>
+
+  <li>
+    <strong>Stl:</strong>
+    <%= @game_stat.stl %>
+  </li>
+
+  <li>
+    <strong>To:</strong>
+    <%= @game_stat.to %>
+  </li>
+
+  <li>
+    <strong>Rating:</strong>
+    <%= @game_stat.rating %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.game_stat_path(@conn, :edit, @game_stat) %></span>
+<span><%= link "Back", to: Routes.game_stat_path(@conn, :index) %></span>

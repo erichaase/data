@@ -1,0 +1,60 @@
+<h1>Listing Game stats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Espn game</th>
+      <th>Espn player</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Min</th>
+      <th>Fgm</th>
+      <th>Fga</th>
+      <th>Ftm</th>
+      <th>Fta</th>
+      <th>Tpm</th>
+      <th>Tpa</th>
+      <th>Pts</th>
+      <th>Reb</th>
+      <th>Ast</th>
+      <th>Blk</th>
+      <th>Stl</th>
+      <th>To</th>
+      <th>Rating</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for game_stat <- @game_stats do %>
+    <tr>
+      <td><%= game_stat.espn_game_id %></td>
+      <td><%= game_stat.espn_player_id %></td>
+      <td><%= game_stat.first_name %></td>
+      <td><%= game_stat.last_name %></td>
+      <td><%= game_stat.min %></td>
+      <td><%= game_stat.fgm %></td>
+      <td><%= game_stat.fga %></td>
+      <td><%= game_stat.ftm %></td>
+      <td><%= game_stat.fta %></td>
+      <td><%= game_stat.tpm %></td>
+      <td><%= game_stat.tpa %></td>
+      <td><%= game_stat.pts %></td>
+      <td><%= game_stat.reb %></td>
+      <td><%= game_stat.ast %></td>
+      <td><%= game_stat.blk %></td>
+      <td><%= game_stat.stl %></td>
+      <td><%= game_stat.to %></td>
+      <td><%= game_stat.rating %></td>
+
+      <td>
+        <%= link "Show", to: Routes.game_stat_path(@conn, :show, game_stat) %>
+        <%= link "Edit", to: Routes.game_stat_path(@conn, :edit, game_stat) %>
+        <%= link "Delete", to: Routes.game_stat_path(@conn, :delete, game_stat), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Game stat", to: Routes.game_stat_path(@conn, :new) %></span>

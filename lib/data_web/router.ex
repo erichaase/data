@@ -19,6 +19,7 @@ defmodule DataWeb.Router do
     get "/", PageController, :index
 
     resources "/notes", NoteController
+    resources "/game_stats", GameStatController
   end
 
   # Other scopes may use custom stacks.
