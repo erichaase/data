@@ -18,8 +18,8 @@ defmodule DataWeb.EspnApiClient do
       "lang" => "en",
       "region" => "us",
       "calendartype" => "blacklist",
-      "limit" => "100"
-      # "dates" => "%Y%m%d"
+      "limit" => "100",
+      # "dates" => "20181231",
     }
     get("#{path}?#{URI.encode_query(qs_params)}")
   end

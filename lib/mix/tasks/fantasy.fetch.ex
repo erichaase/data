@@ -16,27 +16,26 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp process_game(gid) do
-    Mix.shell.info("processing game: #{gid}")
-
     DataWeb.EspnGamecastClient.game_stats(gid)
-    |> Enum.each(&process_game_stat/1)
+    |> Enum.each(&(process_game_stat(&1, gid)))
   end
 
-  defp process_game_stat(stat) do
+  defp process_game_stat(stat, gid) do
     stat
-    |> build_game_stat
-    |> insert_rating
+    |> build_game_stat(gid)
+    |> inject_rating
     # |> upsert_game_stat
   end
 
-  defp build_game_stat(s) do
+  defp build_game_stat(s, gid) do
     [fgm, fga] = String.split(s.fg, "/")
     [ftm, fta] = String.split(s.ft, "/")
     [tpm, tpa] = String.split(s.threept, "/")
 
     # TODO: use ecto model
     %{
-      espn_id: s.id,
+      espn_game_id: gid,
+      espn_player_id: s.id,
       first_name: s.firstName,
       last_name: s.lastName,
       min: String.to_integer(s.minutes),
@@ -55,7 +54,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     }
   end
 
-  defp insert_rating(gs) do
+  defp inject_rating(gs) do
     fgp = if (gs.fga == 0), do: 0, else: (gs.fgm / gs.fga - 0.464) * (gs.fga / 20.1) * 97.6
     ftp = if (gs.fta == 0), do: 0, else: (gs.ftm / gs.fta - 0.790) * (gs.fta / 11.7) * 78.1
     tpm = (gs.tpm - 0.9 ) * 3.5
