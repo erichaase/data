@@ -27,11 +27,12 @@ defmodule DataWeb.EspnGamecastClient do
   defp combine_into_list(%{away: away, home: home}), do: home ++ away
   defp reject_totals(stats) when is_list(stats), do: Enum.reject(stats, &(&1[:firstName] == "TOTALS"))
 
+  # see the following games which include chars that cause problems: 401071214, 401071228
   defp decode_json(json) do
     json
-    |> String.to_charlist
-    |> Enum.filter(&(31 < &1 && &1 < 128))
-    |> List.to_string
+    |> String.codepoints
+    |> Enum.filter(&(String.printable?(&1) && &1 != "\r"))
+    |> Enum.join
     |> Jason.decode(keys: :atoms)
   end
 end
