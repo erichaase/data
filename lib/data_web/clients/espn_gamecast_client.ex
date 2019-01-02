@@ -30,9 +30,8 @@ defmodule DataWeb.EspnGamecastClient do
   # see the following games which include chars that cause problems: 401071214, 401071228
   defp decode_json(json) do
     json
-    |> String.codepoints
-    |> Enum.filter(&(String.printable?(&1) && &1 != "\r"))
-    |> Enum.join
+    |> String.codepoints |> Enum.filter(&String.printable?/1) |> Enum.join
+    |> String.replace(~r/[\n\r]/, "")
     |> Jason.decode(keys: :atoms)
   end
 end
