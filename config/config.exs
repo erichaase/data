@@ -25,6 +25,15 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+if System.get_env("ROLLBAR_TOKEN") do
+  config :rollbax,
+    access_token: System.get_env("ROLLBAR_TOKEN"),
+    environment: Atom.to_string(Mix.env()),
+    enable_crash_reports: true
+else
+  config :rollbax, enabled: :log
+end
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
