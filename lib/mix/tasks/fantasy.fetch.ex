@@ -8,8 +8,12 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   """
 
   def run(args) do
-    Mix.Task.run("app.start") # start app so that we can access database
-    process_games(List.first(args))
+    try do
+      Mix.Task.run("app.start") # start app so that we can access database
+      process_games(List.first(args))
+    rescue
+      e -> Rollbax.report(:error, e, System.stacktrace())
+    end
   end
 
   defp process_games(date) do
@@ -35,17 +39,6 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     [fgm, fga] = String.split(s.fg, "/")
     [ftm, fta] = String.split(s.ft, "/")
     [tpm, tpa] = String.split(s.threept, "/")
-
-# Jan 04 21:57:32 floating-tundra-26312 app/scheduler.2460:  Fetching game 401071247 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:  ** (MatchError) no match of right hand side value: ["-"] 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (data) lib/mix/tasks/fantasy.fetch.ex:34: Mix.Tasks.Fantasy.Fetch.build_game_stat/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (data) lib/mix/tasks/fantasy.fetch.ex:28: Mix.Tasks.Fantasy.Fetch.process_game_stat/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (elixir) lib/enum.ex:765: Enum."-each/2-lists^foreach/1-0-"/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (elixir) lib/enum.ex:765: Enum.each/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (elixir) lib/enum.ex:765: Enum."-each/2-lists^foreach/1-0-"/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (elixir) lib/enum.ex:765: Enum.each/2 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (mix) lib/mix/task.ex:316: Mix.Task.run_task/3 
-# Jan 04 21:57:33 floating-tundra-26312 app/scheduler.2460:      (mix) lib/mix/cli.ex:79: Mix.CLI.run_task/2 
 
     %{
       espn_game_id: gid,
