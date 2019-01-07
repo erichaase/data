@@ -20,7 +20,7 @@ defmodule Data.MixProject do
   def application do
     [
       mod: {Data.Application, []},
-      extra_applications: [:logger, :runtime_tools, :rollbax]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 

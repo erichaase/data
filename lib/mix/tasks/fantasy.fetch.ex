@@ -28,7 +28,6 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp process_game_stat(stat, gid) do
-    DoesNotExist.for_sure()
     stat
     |> build_game_stat(gid)
     |> inject_rating
@@ -36,9 +35,9 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp build_game_stat(s, gid) do
-    [fgm, fga] = String.split(s.fg, "/")
-    [ftm, fta] = String.split(s.ft, "/")
-    [tpm, tpa] = String.split(s.threept, "/")
+    [fgm, fga] = parse_made_attempt_string(s.fg)
+    [ftm, fta] = parse_made_attempt_string(s.ft)
+    [tpm, tpa] = parse_made_attempt_string(s.threept)
 
     %{
       espn_game_id: gid,
@@ -61,6 +60,13 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     }
   end
 
+  defp parse_made_attempt_string(s) do
+    case String.split(s, "/") do
+      [m, a] -> [m, a]
+      _      -> ["0", "0"]
+    end
+  end
+
   defp inject_rating(gs) do
     fgp = if (gs.fga == 0), do: 0, else: (gs.fgm / gs.fga - 0.464) * (gs.fga / 20.1) * 97.6
     ftp = if (gs.fta == 0), do: 0, else: (gs.ftm / gs.fta - 0.790) * (gs.fta / 11.7) * 78.1
@@ -75,7 +81,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     Map.put(gs, :rating, Kernel.trunc(rating))
   end
 
-  def upsert_game_stat(gs) do
+  defp upsert_game_stat(gs) do
     case Data.Fantasy.upsert_game_stat(gs) do
       {:ok, _}            -> nil
       # TODO: rollbar log errors
