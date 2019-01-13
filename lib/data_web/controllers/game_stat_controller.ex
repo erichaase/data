@@ -5,7 +5,7 @@ defmodule DataWeb.GameStatController do
   alias Data.Fantasy.GameStat
 
   def index(conn, _params) do
-    game_stats = Fantasy.list_game_stats()
+    game_stats = Fantasy.list_game_stats_last_day()
     render(conn, "index.html", game_stats: game_stats)
   end
 

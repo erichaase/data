@@ -22,6 +22,23 @@ defmodule Data.Fantasy do
   end
 
   @doc """
+  Returns the list of game_stats for the past day
+
+  ## Examples
+
+      iex> list_game_stats_last_day()
+      [%GameStat{}, ...]
+
+  """
+  def list_game_stats_last_day do
+    one_day_ago = NaiveDateTime.utc_now(Calendar.ISO) |> NaiveDateTime.add(-86_400)
+    query = from gs in GameStat,
+      where: gs.inserted_at > ^one_day_ago,
+      order_by: [desc: :rating]
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single game_stat.
 
   Raises `Ecto.NoResultsError` if the Game stat does not exist.
