@@ -9,13 +9,13 @@
   <tbody>
 <%= for game_stat <- @game_stats do %>
     <tr class="<%= table_row_class(game_stat) %>">
-      <td><%= game_stat.first_name %> <%= game_stat.last_name %></td>
+      <td><%= game_stat.first_name %><br><%= game_stat.last_name %></td>
       <td><%= game_stat.rating %></td>
       <td>
         <%= game_stat.fgm %>/<%= game_stat.fga %>
         <%= game_stat.ftm %>/<%= game_stat.fta %>
-        <%= game_stat.tpm %>/<%= game_stat.tpa %>
-        <%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %>
+        <%= game_stat.tpm %>/<%= game_stat.tpa %><br>
+        <%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %><br>
         <%= game_stat.stl %>-<%= game_stat.blk %>-<%= game_stat.to %>
       </td>
     </tr>
