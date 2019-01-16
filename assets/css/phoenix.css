@@ -132,3 +132,21 @@ header nav a {
     margin: 2rem 1rem;
   }
 }
+
+tr.positive {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+tr.mine {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+tr.negative {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}

@@ -13,7 +13,7 @@
   </thead>
   <tbody>
 <%= for game_stat <- @game_stats do %>
-    <tr>
+    <tr class="<%= table_row_class(game_stat) %>">
       <td><%= game_stat.first_name %> <%= game_stat.last_name %></td>
       <td><%= game_stat.rating %></td>
       <td><%= game_stat.min %></td>
