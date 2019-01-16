@@ -5,7 +5,17 @@ defmodule DataWeb.GameStatController do
   alias Data.Fantasy.GameStat
 
   def index(conn, _params) do
-    game_stats = Fantasy.list_game_stats_last_day()
+    game_stats_last_day = Fantasy.list_game_stats_last_day()
+
+    start_date_time = game_stats_last_day
+    |> List.last
+    |> Map.get(:inserted_at)
+    |> NaiveDateTime.add(-43_200)
+
+    game_stats = game_stats_last_day
+    |> Enum.filter(fn gs -> gs.inserted_at > start_date_time end)
+    |> Enum.sort_by(fn gs -> gs.rating end, &>=/2)
+
     render(conn, "index.html", game_stats: game_stats)
   end
 

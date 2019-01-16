@@ -34,7 +34,7 @@ defmodule Data.Fantasy do
     one_day_ago = NaiveDateTime.utc_now(Calendar.ISO) |> NaiveDateTime.add(-86_400)
     query = from gs in GameStat,
       where: gs.inserted_at > ^one_day_ago,
-      order_by: [desc: :rating]
+      order_by: gs.inserted_at
     Repo.all(query)
   end
 
