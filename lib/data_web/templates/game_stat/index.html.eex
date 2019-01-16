@@ -3,12 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Rating</th>
-      <th>MIN</th>
-      <th>FG</th>
-      <th>FT</th>
-      <th>3PT</th>
-      <th>PRA</th>
-      <th>SBT</th>
+      <th>Line</th>
     </tr>
   </thead>
   <tbody>
@@ -16,12 +11,13 @@
     <tr class="<%= table_row_class(game_stat) %>">
       <td><%= game_stat.first_name %> <%= game_stat.last_name %></td>
       <td><%= game_stat.rating %></td>
-      <td><%= game_stat.min %></td>
-      <td><%= game_stat.fgm %>/<%= game_stat.fga %></td>
-      <td><%= game_stat.ftm %>/<%= game_stat.fta %></td>
-      <td><%= game_stat.tpm %>/<%= game_stat.tpa %></td>
-      <td><%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %></td>
-      <td><%= game_stat.stl %>-<%= game_stat.blk %>-<%= game_stat.to %></td>
+      <td>
+        <%= game_stat.fgm %>/<%= game_stat.fga %>
+        <%= game_stat.ftm %>/<%= game_stat.fta %>
+        <%= game_stat.tpm %>/<%= game_stat.tpa %>
+        <%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %>
+        <%= game_stat.stl %>-<%= game_stat.blk %>-<%= game_stat.to %>
+      </td>
     </tr>
 <% end %>
   </tbody>
