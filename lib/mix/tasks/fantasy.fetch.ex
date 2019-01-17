@@ -29,7 +29,11 @@ defmodule Mix.Tasks.Fantasy.Fetch do
       DataWeb.EspnGamecastClient.game_stats(gid)
       |> Enum.each(&(process_game_stat(&1, gid)))
     rescue
-      e -> IO.inspect(e)
+      e ->
+        IO.puts "#################################### ERROR #####################################"
+        IO.inspect(e)
+        IO.inspect(System.stacktrace())
+        IO.puts "################################################################################"
     end
   end
 
