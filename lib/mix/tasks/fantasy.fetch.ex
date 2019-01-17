@@ -8,12 +8,14 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   """
 
   def run(args) do
-    try do
-      Mix.Task.run("app.start") # start app so that we can access database
-      process_games(List.first(args))
-    rescue
-      e -> Rollbax.report(:error, e, System.stacktrace())
-    end
+    Mix.Task.run("app.start") # start app so that we can access database
+    process_games(List.first(args))
+
+    # TODO: get Rollbar working
+    # try do
+    # rescue
+    #   e -> Rollbax.report(:error, e, System.stacktrace())
+    # end
   end
 
   defp process_games(date) do
