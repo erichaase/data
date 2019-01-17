@@ -25,8 +25,12 @@ defmodule Mix.Tasks.Fantasy.Fetch do
 
   defp process_game(gid) do
     Mix.shell.info("Fetching game #{gid}")
-    DataWeb.EspnGamecastClient.game_stats(gid)
-    |> Enum.each(&(process_game_stat(&1, gid)))
+    try do
+      DataWeb.EspnGamecastClient.game_stats(gid)
+      |> Enum.each(&(process_game_stat(&1, gid)))
+    rescue
+      e -> IO.inspect(e)
+    end
   end
 
   defp process_game_stat(stat, gid) do
