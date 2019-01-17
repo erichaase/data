@@ -1,7 +1,8 @@
 defmodule DataWeb.EspnGamecastClient do
   use Tesla
 
-  plug Tesla.Middleware.BaseUrl, "http://www.espn.com"
+  plug Tesla.Middleware.BaseUrl, "http://scores.espn.go.com"
+  plug Tesla.Middleware.FollowRedirects
   plug Tesla.Middleware.JSON, decode: &decode_json/1
 
   def game_stats(gid) do
@@ -12,16 +13,16 @@ defmodule DataWeb.EspnGamecastClient do
   end
 
   defp get_game_stats(gid) do
-    path = "/nba/gamecast12/master"
-    qs_params = %{
-      "xhr" => "1",
-      "lang" => "en",
-      "init" => "true",
-      "setType" => "true",
-      "confId" => "null",
-      "gameId" => Integer.to_string(gid)
-    }
-    get("#{path}?#{URI.encode_query(qs_params)}")
+    # the query string params need to be ordered this way
+    get(Enum.join([
+      "/nba/gamecast12/master?",
+      "xhr=1&",
+      "gameId=#{Integer.to_string(gid)}&",
+      "lang=en&",
+      "init=true&",
+      "setType=true&",
+      "confId=null",
+    ]))
   end
   defp extract_stats({:ok, %{status: 200, body: body}}), do: body.gamecast.stats.player
   defp combine_into_list(%{away: away, home: home}), do: home ++ away
