@@ -2,14 +2,18 @@
 <%= for game_stat <- @game_stats do %>
   <a target="_blank" href="https://onyrmthe.herokuapp.com/players/<%= game_stat.espn_player_id %>">
     <li class="<%= table_row_class(game_stat) %>">
-      <span class="name"><%= game_stat.first_name %> <%= game_stat.last_name %></span>
-      <span class="rating"><%= game_stat.rating %></span>
-      <span class="min"><%= game_stat.min %></span>
-      <span class="fg"><%= game_stat.fgm %>/<%= game_stat.fga %></span>
-      <span class="ft"><%= game_stat.ftm %>/<%= game_stat.fta %></span>
-      <span class="tp"><%= game_stat.tpm %>/<%= game_stat.tpa %></span>
-      <span class="pra"><%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %></span>
-      <span class="sbt"><%= game_stat.stl %>-<%= game_stat.blk %>-<%= game_stat.to %></span>
+      <div class="first">
+        <span class="name"><%= game_stat.first_name %> <%= game_stat.last_name %></span>
+        <span class="rating"><%= game_stat.rating %></span>
+        <span class="min"><%= game_stat.min %>m</span>
+      </div>
+      <div class="second">
+        <span class="fg"><%= game_stat.fgm %>/<%= game_stat.fga %></span>
+        <span class="ft"><%= game_stat.ftm %>/<%= game_stat.fta %></span>
+        <span class="tp"><%= game_stat.tpm %>/<%= game_stat.tpa %></span>
+        <span class="pra"><%= game_stat.pts %>-<%= game_stat.reb %>-<%= game_stat.ast %></span>
+        <span class="sbt"><%= game_stat.stl %>-<%= game_stat.blk %>-<%= game_stat.to %></span>
+      </div>
     </li>
   </a>
 <% end %>
