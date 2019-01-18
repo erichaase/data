@@ -133,20 +133,32 @@ header nav a {
   }
 }
 
-tr.positive {
+ul#stats {
+  list-style-type: none;
+  border-style: solid;
+  border-width: 1px 1px 0px 1px;
+  border-color: black;
+}
+
+ul#stats li {
+  height: 50px;
+  margin: 0;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: black;
+}
+
+ul#stats li.positive {
   color: #31708f;
   background-color: #d9edf7;
-  border-color: #bce8f1;
 }
 
-tr.mine {
+ul#stats li.mine {
   color: #8a6d3b;
   background-color: #fcf8e3;
-  border-color: #faebcc;
 }
 
-tr.negative {
+ul#stats li.negative {
   color: #a94442;
   background-color: #f2dede;
-  border-color: #ebccd1;
 }
