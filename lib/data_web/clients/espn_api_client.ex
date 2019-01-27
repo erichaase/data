@@ -6,7 +6,7 @@ defmodule DataWeb.EspnApiClient do
   plug Tesla.Middleware.JSON, engine_opts: [keys: :atoms]
 
   # date format: "20181231"
-  def scoreboard_game_ids(date) do
+  def scoreboard_game_ids(date \\ nil) do
     get_scoreboard(date)
     |> extract_events
     |> reject_inactive

@@ -11,9 +11,10 @@ defmodule Data.Application do
       # Start the Ecto repository
       Data.Repo,
       # Start the endpoint when the application starts
-      DataWeb.Endpoint
+      DataWeb.Endpoint,
       # Starts a worker by calling: Data.Worker.start_link(arg)
       # {Data.Worker, arg},
+      Data.Cron
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
