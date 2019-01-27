@@ -15,8 +15,7 @@ defmodule Data.Cron do
   end
 
   def handle_info(:process_scoreboard, _) do
-    IO.puts "Testing: #{DateTime.utc_now}"
-    # Task.start(DataWeb.EspnApiClient, :scoreboard_game_ids, [])
+    Task.start(Data.Fantasy.Tasks.Scoreboard, :process, [])
     schedule_next_process_scoreboard()
     {:noreply, nil}
   end
