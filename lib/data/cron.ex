@@ -10,14 +10,14 @@ defmodule Data.Cron do
   # Server Functions
 
   def init(:no_args) do
-    schedule_next_process_scoreboard
+    schedule_next_process_scoreboard()
     {:ok, nil}
   end
 
   def handle_info(:process_scoreboard, _) do
-    IO.inspect "Testing: #{DateTime.utc_now}"
+    IO.puts "Testing: #{DateTime.utc_now}"
     # Task.start(DataWeb.EspnApiClient, :scoreboard_game_ids, [])
-    schedule_next_process_scoreboard
+    schedule_next_process_scoreboard()
     {:noreply, nil}
   end
 
