@@ -2,13 +2,9 @@ defmodule Data.Cron do
   use GenServer
 
   # Client Functions
-
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, :no_args)
-  end
+  def start_link(_), do: GenServer.start_link(__MODULE__, :no_args)
 
   # Server Functions
-
   def init(:no_args) do
     schedule_next_process_scoreboard()
     {:ok, nil}

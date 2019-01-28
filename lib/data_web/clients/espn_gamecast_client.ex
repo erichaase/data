@@ -5,14 +5,14 @@ defmodule DataWeb.EspnGamecastClient do
   plug Tesla.Middleware.FollowRedirects
   plug Tesla.Middleware.JSON, decode: &decode_json/1
 
-  def game_stats(gid) do
-    get_game_stats(gid)
+  def stats(gid) do
+    get_stats(gid)
     |> extract_stats
     |> combine_into_list
     |> reject_totals
   end
 
-  defp get_game_stats(gid) do
+  defp get_stats(gid) do
     # the query string params need to be ordered this way
     get(Enum.join([
       "/nba/gamecast12/master?",

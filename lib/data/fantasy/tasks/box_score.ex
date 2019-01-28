@@ -1,50 +1,17 @@
-defmodule Mix.Tasks.Fantasy.Fetch do
-  use Mix.Task
-
-  @shortdoc "Fetches fantasy statistics"
-
-  @moduledoc """
-    Fetches fantasy statistics
-  """
-
-  def run(args) do
-    Mix.Task.run("app.start") # start app so that we can access database
-    process_games(List.first(args))
-
-    # TODO: get Rollbar working
-    # try do
-    # rescue
-    #   e -> Rollbax.report(:error, e, System.stacktrace())
-    # end
+defmodule Data.Fantasy.Tasks.BoxScore do
+  # TODO: verify rollbar works by introducing an exception
+  def process(gid) do
+    IO.puts "BoxScore.process: game: #{gid}"
+    # TODO: move this to Data.Fantasy
+    DataWeb.EspnGamecastClient.stats(gid)
+    |> Enum.map(&(build_game_stat(&1, gid)))
+    |> Enum.each(fn gs -> IO.puts("#{gs.rating} #{gs.first_name} #{gs.last_name}") end)
+    # Task.start(Data.Fantasy.Tasks.GameStat, :store, [])
   end
 
-  defp process_games(date) do
-    Data.Fantasy.Clients.EspnApi.scoreboard_game_ids(date)
-    |> Enum.each(&process_game/1)
-  end
+  defp build_game_stat(stat, gid), do: stat_to_game_stat(stat, gid) |> inject_rating
 
-  defp process_game(gid) do
-    Mix.shell.info("Fetching game #{gid}")
-    try do
-      DataWeb.EspnGamecastClient.stats(gid)
-      |> Enum.each(&(process_game_stat(&1, gid)))
-    rescue
-      e ->
-        IO.puts "#################################### ERROR #####################################"
-        IO.inspect(e)
-        IO.inspect(System.stacktrace())
-        IO.puts "################################################################################"
-    end
-  end
-
-  defp process_game_stat(stat, gid) do
-    stat
-    |> build_game_stat(gid)
-    |> inject_rating
-    |> upsert_game_stat
-  end
-
-  defp build_game_stat(s, gid) do
+  defp stat_to_game_stat(s, gid) do
     [fgm, fga] = parse_made_attempt_string(s.fg)
     [ftm, fta] = parse_made_attempt_string(s.ft)
     [tpm, tpa] = parse_made_attempt_string(s.threept)
@@ -89,13 +56,5 @@ defmodule Mix.Tasks.Fantasy.Fetch do
     to  = (gs.to  - 2.0 ) * -3.4
     rating = fgp + ftp + tpm + pts + reb + ast + stl + blk + to
     Map.put(gs, :rating, Kernel.trunc(rating))
-  end
-
-  defp upsert_game_stat(gs) do
-    case Data.Fantasy.upsert_game_stat(gs) do
-      {:ok, _}            -> nil
-      # TODO: rollbar log errors
-      {:error, changeset} -> Mix.shell.error("Error upserting: #{inspect(changeset)}")
-    end
   end
 end
