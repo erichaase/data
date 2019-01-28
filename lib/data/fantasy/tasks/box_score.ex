@@ -1,11 +1,9 @@
 defmodule Data.Fantasy.Tasks.BoxScore do
-  # TODO: verify rollbar works by introducing an exception
   def process(gid) do
     IO.puts "BoxScore.process: game: #{gid}"
     Data.Fantasy.Clients.EspnGamecast.stats(gid)
     |> Enum.map(&(build_game_stat(&1, gid)))
-    |> Enum.each(fn gs -> IO.puts("#{gs.rating} #{gs.first_name} #{gs.last_name}") end)
-    # Task.start(Data.Fantasy.Tasks.GameStat, :store, [])
+    |> Enum.each(&start_store_task/1)
   end
 
   defp build_game_stat(stat, gid), do: stat_to_game_stat(stat, gid) |> inject_rating
@@ -56,4 +54,6 @@ defmodule Data.Fantasy.Tasks.BoxScore do
     rating = fgp + ftp + tpm + pts + reb + ast + stl + blk + to
     Map.put(gs, :rating, Kernel.trunc(rating))
   end
+
+  defp start_store_task(gs), do: Task.start(Data.Fantasy.Tasks.GameStat, :store, [gs])
 end
