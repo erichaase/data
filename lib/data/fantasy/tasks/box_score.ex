@@ -1,6 +1,8 @@
 defmodule Data.Fantasy.Tasks.BoxScore do
+  require Logger
+
   def process(gid) do
-    IO.puts "BoxScore.process: game: #{gid}"
+    Logger.info "BoxScore.process: game: #{gid}"
     Data.Fantasy.Clients.EspnGamecast.stats(gid)
     |> Enum.map(&(build_game_stat(&1, gid)))
     |> Enum.each(&start_store_task/1)
