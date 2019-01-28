@@ -1,4 +1,4 @@
-defmodule DataWeb.EspnGamecastClient do
+defmodule Data.Fantasy.Clients.EspnGamecast do
   use Tesla
 
   plug Tesla.Middleware.BaseUrl, "http://scores.espn.go.com"

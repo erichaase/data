@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   defp process_game(gid) do
     Mix.shell.info("Fetching game #{gid}")
     try do
-      DataWeb.EspnGamecastClient.stats(gid)
+      Data.Fantasy.Clients.EspnGamecast.stats(gid)
       |> Enum.each(&(process_game_stat(&1, gid)))
     rescue
       e ->
