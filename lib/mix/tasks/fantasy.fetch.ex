@@ -19,7 +19,7 @@ defmodule Mix.Tasks.Fantasy.Fetch do
   end
 
   defp process_games(date) do
-    DataWeb.EspnApiClient.scoreboard_game_ids(date)
+    Data.Fantasy.Clients.EspnApi.scoreboard_game_ids(date)
     |> Enum.each(&process_game/1)
   end
 

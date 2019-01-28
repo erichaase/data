@@ -1,4 +1,4 @@
-defmodule DataWeb.EspnApiClient do
+defmodule Data.Fantasy.Clients.EspnApi do
   use Tesla
 
   plug Tesla.Middleware.BaseUrl, "http://site.api.espn.com"
