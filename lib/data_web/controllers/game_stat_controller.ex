@@ -13,7 +13,7 @@ defmodule DataWeb.GameStatController do
     |> NaiveDateTime.add(-43_200)
 
     game_stats = game_stats_last_day
-    |> Enum.filter(fn gs -> gs.inserted_at > start_date_time end)
+    |> Enum.filter(fn gs -> NaiveDateTime.compare(gs.inserted_at, start_date_time) == :gt end)
     |> Enum.sort_by(fn gs -> gs.rating end, &>=/2)
 
     render(conn, "index.html", game_stats: game_stats)
