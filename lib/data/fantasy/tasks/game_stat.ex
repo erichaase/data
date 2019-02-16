@@ -18,20 +18,27 @@ defmodule Data.Fantasy.Tasks.GameStat do
       espn_player_id: s.id,
       first_name: s.firstName,
       last_name: s.lastName,
-      min: String.to_integer(s.minutes),
-      fgm: String.to_integer(fgm),
-      fga: String.to_integer(fga),
-      ftm: String.to_integer(ftm),
-      fta: String.to_integer(fta),
-      tpm: String.to_integer(tpm),
-      tpa: String.to_integer(tpa),
-      pts: String.to_integer(s.points),
-      reb: String.to_integer(s.rebounds),
-      ast: String.to_integer(s.assists),
-      blk: String.to_integer(s.blocks),
-      stl: String.to_integer(s.steals),
-      to:  String.to_integer(s.turnovers),
+      min: str_to_int(s.minutes),
+      fgm: str_to_int(fgm),
+      fga: str_to_int(fga),
+      ftm: str_to_int(ftm),
+      fta: str_to_int(fta),
+      tpm: str_to_int(tpm),
+      tpa: str_to_int(tpa),
+      pts: str_to_int(s.points),
+      reb: str_to_int(s.rebounds),
+      ast: str_to_int(s.assists),
+      blk: str_to_int(s.blocks),
+      stl: str_to_int(s.steals),
+      to:  str_to_int(s.turnovers),
     }
+  end
+
+  defp str_to_int(str) do
+    case Integer.parse(str) do
+      {int, _} -> int
+      _        -> 0
+    end
   end
 
   defp parse_made_attempt_string(s) do
