@@ -8,6 +8,43 @@ defmodule Data.Fantasy do
 
   alias Data.Fantasy.GameStat
 
+  ################################### CUSTOM ###################################
+
+  @doc """
+  Gets the most recently inserted game_stat
+  """
+  def get_game_stat_mri do
+    query = from gs in GameStat,
+      order_by: [desc: gs.inserted_at],
+      limit: 1
+    Repo.one(query)
+  end
+
+  @doc """
+  Returns a list of game_stats since given datetime
+  """
+  def list_game_stats_since(start_date_time) do
+    query = from gs in GameStat,
+      where: gs.inserted_at > ^start_date_time,
+      order_by: [desc: gs.rating]
+    Repo.all(query)
+  end
+
+  @doc """
+  Upserts a single game_stat.
+  """
+  def upsert_game_stat(attrs) do
+    query = %{espn_game_id: attrs.espn_game_id, espn_player_id: attrs.espn_player_id}
+    case get_by_game_stat(query) do
+      nil -> %GameStat{}
+      gs  -> gs
+    end
+    |> GameStat.changeset(attrs)
+    |> Repo.insert_or_update
+  end
+
+  ################################# GENERATED ##################################
+
   @doc """
   Returns the list of game_stats.
 
@@ -19,23 +56,6 @@ defmodule Data.Fantasy do
   """
   def list_game_stats do
     Repo.all(GameStat)
-  end
-
-  @doc """
-  Returns the list of game_stats for the past day
-
-  ## Examples
-
-      iex> list_game_stats_last_day()
-      [%GameStat{}, ...]
-
-  """
-  def list_game_stats_last_day do
-    one_day_ago = NaiveDateTime.utc_now(Calendar.ISO) |> NaiveDateTime.add(-86_400)
-    query = from gs in GameStat,
-      where: gs.inserted_at > ^one_day_ago,
-      order_by: gs.inserted_at
-    Repo.all(query)
   end
 
   @doc """
@@ -93,19 +113,6 @@ defmodule Data.Fantasy do
     game_stat
     |> GameStat.changeset(attrs)
     |> Repo.update()
-  end
-
-  @doc """
-  Upserts a single game_stat.
-  """
-  def upsert_game_stat(attrs) do
-    query = %{espn_game_id: attrs.espn_game_id, espn_player_id: attrs.espn_player_id}
-    case get_by_game_stat(query) do
-      nil -> %GameStat{}
-      gs  -> gs
-    end
-    |> GameStat.changeset(attrs)
-    |> Repo.insert_or_update
   end
 
   @doc """
