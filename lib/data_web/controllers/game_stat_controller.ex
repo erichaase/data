@@ -9,7 +9,14 @@ defmodule DataWeb.GameStatController do
     |> NaiveDateTime.add(-21_600)
     |> NaiveDateTime.to_date()
     |> NaiveDateTime.new(~T[00:00:00])
-    game_stats = Fantasy.list_game_stats_since(start_dt)
+
+    # TODO: find better way to do this, alternative to `new`
+    # that doesn't return tuple so pipeline can be used
+
+    game_stats = start_dt
+    |> NaiveDateTime.add(21_600)
+    |> Fantasy.list_game_stats_since()
+
     render(conn, "index.html", game_stats: game_stats)
   end
 
