@@ -5,9 +5,11 @@ defmodule DataWeb.GameStatController do
   alias Data.Fantasy.GameStat
 
   def index(conn, _params) do
-    game_stat_mri = Fantasy.get_game_stat_mri()
-    start_date_time = game_stat_mri.inserted_at |> NaiveDateTime.add(-43_200)
-    game_stats = Fantasy.list_game_stats_since(start_date_time)
+    {:ok, start_dt} = Fantasy.get_game_stat_mri().inserted_at
+    |> NaiveDateTime.add(-21_600)
+    |> NaiveDateTime.to_date()
+    |> NaiveDateTime.new(~T[00:00:00])
+    game_stats = Fantasy.list_game_stats_since(start_dt)
     render(conn, "index.html", game_stats: game_stats)
   end
 
