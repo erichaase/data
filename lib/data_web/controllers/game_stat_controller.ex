@@ -5,19 +5,19 @@ defmodule DataWeb.GameStatController do
   alias Data.Fantasy.GameStat
 
   def index(conn, _params) do
-    {:ok, start_dt} = Fantasy.get_game_stat_mri().inserted_at
+    game_stats = Fantasy.get_game_stat_mri()
+    |> build_start_date_time
+    |> Fantasy.list_game_stats_since()
+    render(conn, "index.html", game_stats: game_stats)
+  end
+
+  defp build_start_date_time(game_stat) do
+    game_stat.inserted_at
     |> NaiveDateTime.add(-21_600)
     |> NaiveDateTime.to_date()
     |> NaiveDateTime.new(~T[00:00:00])
-
-    # TODO: find better way to do this, alternative to `new`
-    # that doesn't return tuple so pipeline can be used
-
-    game_stats = start_dt
+    |> (fn({:ok, dt}) -> dt end).()
     |> NaiveDateTime.add(21_600)
-    |> Fantasy.list_game_stats_since()
-
-    render(conn, "index.html", game_stats: game_stats)
   end
 
   def new(conn, _params) do

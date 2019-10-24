@@ -23,9 +23,9 @@ defmodule Data.Fantasy do
   @doc """
   Returns a list of game_stats since given datetime
   """
-  def list_game_stats_since(start_dt) do
+  def list_game_stats_since(start_date_time) do
     query = from gs in GameStat,
-      where: gs.inserted_at > ^start_dt,
+      where: gs.inserted_at > ^start_date_time,
       order_by: [desc: gs.rating]
     Repo.all(query)
   end
