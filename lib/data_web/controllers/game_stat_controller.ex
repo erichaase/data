@@ -13,11 +13,11 @@ defmodule DataWeb.GameStatController do
 
   defp build_start_date_time(game_stat) do
     game_stat.inserted_at
-    |> NaiveDateTime.add(-21_600)
+    |> NaiveDateTime.add(-28_800) # subtract 8 hours
     |> NaiveDateTime.to_date()
     |> NaiveDateTime.new(~T[00:00:00])
     |> (fn({:ok, dt}) -> dt end).()
-    |> NaiveDateTime.add(21_600)
+    |> NaiveDateTime.add(28_800) # add 8 hours
   end
 
   def new(conn, _params) do
